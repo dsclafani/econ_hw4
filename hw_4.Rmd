@@ -19,3 +19,11 @@ warming <- read_csv(here("data", "warming.csv")) %>%
   clean_names()
 ```
 
+```{r}
+plot(damages)
+ggplot()
+```
+```{r}
+plot(warming)
+```
+

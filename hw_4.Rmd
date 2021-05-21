@@ -21,8 +21,32 @@ warming <- read_csv(here("data", "warming.csv")) %>%
 
 ```{r}
 plot(damages)
-ggplot()
+ggplot(dta = damages, aes(x = warming, y = damages)) + geom_point()
 ```
+
+## Finding the Quadratic Formula
+```{r}
+#creating new variable of x^2, which is warming^2
+damages$warming2 <- damages$warming^2
+damages_model <- lm(damages ~ warming + warming2, data = damages)
+summary(damages_model)
+```
+
+#Question #1
+
+Formula => Damages = 1.959x10^13(Warming^2) - 3.019X10^12(Warming)
+
+```{r}
+
+warmingValues <- seq(0, 10, 0.00001)
+damagesPredict <- predict(damages_model, list(warming = warmingValues, warming2=warmingValues^2))
+
+#Original Scatterplot
+plot(damages$warming, damages$damages, pch = 25) + lines(warmingValues, damagesPredict, col = "blue")
+
+```
+# Question 2
+
 ```{r}
 plot(warming)
 ```

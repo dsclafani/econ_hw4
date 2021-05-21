@@ -8,4 +8,14 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(here)
+library(janitor)
 ```
+## Loading in the Data
+```{r}
+damages <- read_csv(here("data", "damages.csv")) %>% 
+  clean_names()
+warming <- read_csv(here("data", "warming.csv")) %>% 
+  clean_names()
+```
+

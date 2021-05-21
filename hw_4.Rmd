@@ -20,8 +20,8 @@ warming <- read_csv(here("data", "warming.csv")) %>%
 ```
 
 ```{r}
-plot(damages)
-ggplot(dta = damages, aes(x = warming, y = damages)) + geom_point()
+
+ggplot(data = damages, aes(x = warming, y = damages)) + geom_point()
 ```
 
 ## Finding the Quadratic Formula
@@ -45,9 +45,23 @@ damagesPredict <- predict(damages_model, list(warming = warmingValues, warming2=
 plot(damages$warming, damages$damages, pch = 25) + lines(warmingValues, damagesPredict, col = "blue")
 
 ```
+
 # Question 2
 
-```{r}
-plot(warming)
+##Damages with the baseline temperature
+```{r, fig.cap= "Figure 2.0 Damages without a pulse"}
+damages_baseline <- predict(damages_model, list(warming = warming$warming_baseline, warming2=warming$warming_baseline^2))
+
+#Original Scatterplot
+
+plot(x = warming$year, damages_baseline)
+
+```
+
+### Damages with pulse
+```{r, fig.cap= "Figure 2.0 Damages with a pulse"}
+damages_pulse <- predict(damages_model, list(warming = warming$warming_pulse, warming2=warming$warming_pulse^2))
+
+plot(damages_pulse, x = warming$year)
 ```
 

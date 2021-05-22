@@ -34,7 +34,7 @@ summary(damages_model)
 
 #Question #1
 
-Formula => Damages = 1.959x10^13(Warming^2) - 3.019X10^12(Warming)
+Formula => Damages = 1.959x10^13(Warming^2) - 3.019X10^12(Warming), Warming = degrees Celsius increase
 
 ```{r}
 
@@ -59,9 +59,50 @@ plot(x = warming$year, damages_baseline)
 ```
 
 ### Damages with pulse
-```{r, fig.cap= "Figure 2.0 Damages with a pulse"}
+```{r, fig.cap= "Figure 3.0 Damages with a pulse"}
 damages_pulse <- predict(damages_model, list(warming = warming$warming_pulse, warming2=warming$warming_pulse^2))
 
 plot(damages_pulse, x = warming$year)
+```
+### Differences in Damages over time that arise form the pulse
+```{r}
+# differences in the warming
+
+warming$diff <- warming$warming_pulse - warming$warming_baseline
+damages_diff <- predict(damages_model, list(warming = warming$diff, warming2=warming$diff^2))
+
+plot(damages_diff, x = warming$year)
+```
+
+
+## Question 2, part 4
+
+
+# Question 3
+
+```{r}
+
+#choosing a date: 2070, in 50 years
+warming_50 <- warming %>% 
+  filter(x1 == 50)
+
+#we plug in this temperature to the damages function. We will use the warming_baseline temperature.
+damages_50 <- predict(damages_model, list(warming = warming_50$warming_baseline, warming2=warming_50$warming_baseline^2))
+damages_50 #this is the total cost of damages
+```
+
+
+```{r}
+
+#making a sequence of the discount rates
+discount_rates <- seq(0, 5, 0.25)
+
+#using the present value formula, we know that B= damages_50, and that B/r = Present Value.
+
+present_value_50 <- damages_50/ discount_rates
+present_value_50
+
+plot(present_value_50, x = discount_rates)
+
 ```
 

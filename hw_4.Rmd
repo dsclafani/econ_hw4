@@ -97,12 +97,28 @@ damages_50 #this is the total cost of damages
 #making a sequence of the discount rates
 discount_rates <- seq(0, 5, 0.25)
 
-#using the present value formula, we know that B= damages_50, and that B/r = Present Value.
+#Calculating the SCC: using the present value formula, we know that B= damages_50, and that B/r = Present Value.
 
-present_value_50 <- damages_50/ discount_rates
+present_value_50 <- damages_50/discount_rates
 present_value_50
 
+#need to get ramsey point on here
 plot(present_value_50, x = discount_rates)
 
+
 ```
+
+#Question 4: Using the Ramsey Rule
+```{r}
+r = 0.001 + 2*0.01
+r
+
+scc_ramsey <- damages_50/r
+scc_ramsey
+```
+
+```{r}
+plot(x = r, y = scc_ramsey, col = "blue")
+```
+
 

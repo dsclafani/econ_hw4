@@ -48,7 +48,7 @@ plot(damages$warming, damages$damages, pch = 25) + lines(warmingValues, damagesP
 
 # Question 2
 
-##Damages with the baseline temperature
+### Question 2 Part 1: Damages with the baseline temperature
 ```{r, fig.cap= "Figure 2.0 Damages without a pulse"}
 damages_baseline <- predict(damages_model, list(warming = warming$warming_baseline, warming2=warming$warming_baseline^2))
 
@@ -58,13 +58,13 @@ plot(x = warming$year, damages_baseline)
 
 ```
 
-### Damages with pulse
+### Question 2 Part 2: Damages with pulse
 ```{r, fig.cap= "Figure 3.0 Damages with a pulse"}
 damages_pulse <- predict(damages_model, list(warming = warming$warming_pulse, warming2=warming$warming_pulse^2))
 
 plot(damages_pulse, x = warming$year)
 ```
-### Differences in Damages over time that arise form the pulse
+### Question 2, Part 3: Differences in Damages over time that arise form the pulse
 ```{r}
 # differences in the warming
 
@@ -75,7 +75,7 @@ plot(damages_diff, x = warming$year)
 ```
 
 
-## Question 2, part 4
+### Question 2, part 4: The difference in damages over time from the pulse per ton of CO2 
 
 ```{r}
 #need to convert billion tons to tons. So going to divide degrees by a billion
@@ -96,9 +96,9 @@ plot(damages_diffton, x = warming$year)
 warming_50 <- warming %>% 
   filter(x1 == 50)
 
-#we plug in this temperature to the damages function. We will use the warming_baseline temperature.
+#we plug in this temperature from 2070 to the damages function. We will use the warming_baseline temperature.
 damages_50 <- predict(damages_model, list(warming = warming_50$warming_baseline, warming2=warming_50$warming_baseline^2))
-damages_50 #this is the total cost of damages
+damages_50 #this is the total cost of damages in 2070
 ```
 
 
@@ -125,10 +125,27 @@ r
 
 scc_ramsey <- damages_50/r
 scc_ramsey
+
 ```
 
 ```{r}
 plot(x = r, y = scc_ramsey, col = "blue")
 ```
+
+```{r}
+# putting graph into a ggplot so we can add the ramsey rule point
+data_4_present_value <- as.data.frame(damages_50/discount_rates)
+data_4_discount_rates <- as.data.frame(discount_rates)
+
+ggplot(data = data_4_present_value, aes(y=data_4_present_value$`damages_50/discount_rates`, x=data_4_discount_rates$discount_rates )) + geom_point() +
+  geom_point(aes(x=r, y=scc_ramsey, col = "Ramsey Rule Point")) 
+
+```
+
+# Question 5
+```{r}
+
+```
+
 
 

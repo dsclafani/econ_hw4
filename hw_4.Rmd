@@ -32,7 +32,7 @@ damages_model <- lm(damages ~ warming + warming2, data = damages)
 summary(damages_model)
 ```
 
-#Question #1
+# Question #1
 
 Formula => Damages = 1.959x10^13 (Warming^2) - 3.019X10^12(Warming), Warming = degrees Celsius increase
 
@@ -118,7 +118,7 @@ plot(present_value_50, x = discount_rates)
 
 ```
 
-#Question 4: Using the Ramsey Rule
+# Question 4: Using the Ramsey Rule
 ```{r}
 r = 0.001 + 2*0.01
 r
@@ -138,13 +138,43 @@ data_4_present_value <- as.data.frame(damages_50/discount_rates)
 data_4_discount_rates <- as.data.frame(discount_rates)
 
 ggplot(data = data_4_present_value, aes(y=data_4_present_value$`damages_50/discount_rates`, x=data_4_discount_rates$discount_rates )) + geom_point() +
-  geom_point(aes(x=r, y=scc_ramsey, col = "Ramsey Rule Point")) 
+  geom_point(aes(x=r, y=scc_ramsey, col = "Ramsey Rule Point")) +
+  theme_minimal()
 
 ```
 
 # Question 5
+## Policy A
 ```{r}
+# Policy A
+warming$warming_policyA <- warming$warming_baseline*1.5
 
+#year 2100
+warming_2100 <- warming %>%  filter(year == 2100)
+
+
+#finding damages in 2100 under baseline
+damages_2100 <- predict(damages_model, list(warming = warming_2100$warming_baseline, warming2=warming_2100$warming_baseline^2))
+damages_2100
+
+#finding damages under Policy A situation#2
+
+damages_2100_policyA <- predict(damages_model, list(warming = warming_2100$warming_policyA, warming2=warming_2100$warming_policyA^2))
+damages_2100_policyA
+
+
+
+# finding expected net damages
+#Expected damages = p1(damages1) + p2(damages2)
+# p1 = 0.5, damages1 = damages@baseline, p2 = 0.5, damages2=damages@policyA
+
+expected_damages<-0.5*damages_2100 + 0.5*damages_2100_policyA 
+expected_damages # this is the cost of the expected damages under Policy A scenarios
+
+#finding the present value of the expected damages
+
+pv_expected_damages <- expected_damages/(1+0.02)^80
+pv_expected_damages #this is the present value of the expected damages in 2100 under Policy A with a risk neutral population
 ```
 
 

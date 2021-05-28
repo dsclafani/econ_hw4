@@ -77,6 +77,16 @@ plot(damages_diff, x = warming$year)
 
 ## Question 2, part 4
 
+```{r}
+#need to convert billion tons to tons. So going to divide degrees by a billion
+
+warming$diffton <- warming$diff/1000000000
+damages_diffton <- predict(damages_model, list(warming = warming$diffton, warming2=warming$diffton^2))
+
+plot(damages_diffton, x = warming$year)
+
+```
+
 
 # Question 3
 

@@ -105,15 +105,20 @@ damages_50 #this is the total cost of damages in 2070
 ```{r}
 
 #making a sequence of the discount rates
-discount_rates <- seq(0, 5, 0.25)
+discount_rates <- seq(0, 3, 0.0025)
 
 #Calculating the SCC: using the present value formula, we know that B= damages_50, and that B/r = Present Value.
 
+damages_50 <- predict(damages_model, list(warming = warming_50$warming_baseline, warming2=warming_50$warming_baseline^2))
 present_value_50 <- damages_50/discount_rates
-present_value_50
+
+
+damages_50_1 <- (1.37*10^15)
+present_value_50_1 <- damages_50_1/((1+ discount_rates)^50)
+present_value_50_1
 
 #need to get ramsey point on here
-plot(present_value_50, x = discount_rates)
+plot(present_value_50_1, x = discount_rates)
 
 
 ```
@@ -123,7 +128,7 @@ plot(present_value_50, x = discount_rates)
 r = 0.001 + 2*0.01
 r
 
-scc_ramsey <- damages_50/r
+scc_ramsey <- damages_50_1/r
 scc_ramsey
 
 ```
@@ -134,10 +139,10 @@ plot(x = r, y = scc_ramsey, col = "blue")
 
 ```{r}
 # putting graph into a ggplot so we can add the ramsey rule point
-data_4_present_value <- as.data.frame(damages_50/discount_rates)
+data_4_present_value <- as.data.frame(damages_50_1/discount_rates)
 data_4_discount_rates <- as.data.frame(discount_rates)
 
-ggplot(data = data_4_present_value, aes(y=data_4_present_value$`damages_50/discount_rates`, x=data_4_discount_rates$discount_rates )) + geom_point() +
+ggplot(data = data_4_present_value, aes(y=data_4_present_value$`damages_50_1/discount_rates`, x=data_4_discount_rates$discount_rates )) + geom_point() +
   geom_point(aes(x=r, y=scc_ramsey, col = "Ramsey Rule Point")) +
   theme_minimal()
 
@@ -178,4 +183,13 @@ pv_expected_damages #this is the present value of the expected damages in 2100 u
 ```
 
 
+## Policy B
+```{r}
+#warming will be baseline until 2050 - but stabilize at 1.29 degrees from 2051-2100
 
+warming_policyB_50 <- warming %>% 
+  filter(year <= 2050)
+
+warming_pb_51 <- warming %>% 
+  filter(year > 2050)
+```

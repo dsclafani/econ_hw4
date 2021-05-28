@@ -34,7 +34,7 @@ summary(damages_model)
 
 #Question #1
 
-Formula => Damages = 1.959x10^13(Warming^2) - 3.019X10^12(Warming), Warming = degrees Celsius increase
+Formula => Damages = 1.959x10^13 (Warming^2) - 3.019X10^12(Warming), Warming = degrees Celsius increase
 
 ```{r}
 
